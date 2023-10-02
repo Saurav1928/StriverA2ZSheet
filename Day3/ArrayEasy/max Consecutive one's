@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int cnt=0, maxi=0;
+        for(auto it:nums)
+        {
+            if(it==0)
+                cnt=0;
+            else 
+            cnt++;
+            maxi=max(cnt, maxi);
+        }
+        return maxi;
+    }
+};
