@@ -1,0 +1,34 @@
+vector < int > optimalApproach(vector < int > & a) {
+  int n = a.size();
+  vector < int > ans(n, 0);
+  int posInd = 0, negInd = 1, curr = 0;
+  for (curr = 0; curr < n; curr++) {
+    if (a[curr] < 0) {
+      ans[negInd] = a[curr];
+      negInd += 2;
+    } else {
+      ans[posInd] = a[curr];
+      posInd += 2;
+    }
+  }
+  return ans;
+}
+vector < int > bruteForce(vector < int > & a) {
+  vector < int > pos, neg;
+  for (auto & it: a) {
+    if (it > 0) pos.push_back(it);
+    else neg.push_back(it);
+  }
+  vector < int > ans;
+  int n = a.size();
+  for (int i = 0, j = 0, k = 0; i < n; i++) {
+    if (i % 2 == 0) ans.push_back(pos[k++]);
+    else ans.push_back(neg[j++]);
+  }
+
+  return ans;
+}
+vector < int > alternateNumbers(vector < int > & a) {
+  // return bruteForce(a);
+   return optimalApproach(a);
+}
