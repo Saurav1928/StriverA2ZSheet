@@ -1,0 +1,31 @@
+vector < int > bruteForce(vector < int > & a) {
+  vector < int > ans;
+  int n = a.size(), flg;
+  for (int i = 0; i < n; i++) {
+    flg = 0;
+    for (int j = i + 1; j < n and(flg == 0); j++) {
+      if (a[i] <= a[j])
+        flg = 1;
+    }
+    if (flg == 0)
+      ans.push_back(a[i]);
+  }
+  sort(ans.begin(), ans.end());
+  return ans;
+}
+vector < int > optimal(vector < int > & a) {
+  vector < int > ans;
+  int n = a.size(), maxi = INT_MIN;
+  for (int i = n - 1; i >= 0; i--) {
+    if (a[i] > maxi) {
+      ans.push_back(a[i]);
+      maxi = a[i];
+    }
+  }
+  return ans;
+}
+vector < int > superiorElements(vector < int > & a) {
+  //   return bruteForce(a);
+  return optimal(a);
+
+}
