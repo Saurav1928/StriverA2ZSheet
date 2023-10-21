@@ -1,0 +1,56 @@
+class Solution {
+  public: int bruteForce(vector < int > & prices) {
+    //brute force lead me to TLE  as n=prices.length()>10^4
+    //using 2 loops so in worst case where i and j both =0 it will run for n^2
+    //TC: O(n^2) SC:O(1);
+    int maxProfit = 0;
+    int n = prices.size();
+    for (int i = 0; i < n; i++) {
+      for (int j = i; j < n; j++)
+        maxProfit = max(prices[j] - prices[i], maxProfit);
+    }
+    return maxProfit;
+  }
+
+  int pref_suff_method(vector < int > & prices) {
+    //better approach
+    //using 1 loop 
+    /*
+    for the i'th day, I will be finding the mini from left that will be min buying price for i'th day ans also the max selling price for max profit
+
+    this will lead me to take SC:O(n)+O(n)-->O(2n)
+
+    for thise method: TC: O(n) SC:O(2n);
+    
+    and after this I get to know that there was no need to use extra space, 2 variable can handle this so optimal approach is there
+    */
+    int n = prices.size();
+    vector < int > mini(n), maxi(n);
+    mini[0] = prices[0];
+    maxi[n - 1] = prices[n - 1];
+    for (int i = 1, j = n - 2; i < n; i++, j--) {
+      mini[i] = min(mini[i - 1], prices[i]);
+      maxi[j] = max(maxi[j + 1], prices[j]);
+    }
+    int prof = 0;
+    for (int i = 0; i < n; i++)
+      prof = max(maxi[i] - mini[i], prof);
+    return prof;
+  }
+  int optimalMethod(vector < int > & prices) {
+    long int buy = INT_MAX, maxprof = 0, j = 0, tprof;
+    for (int i = 0; i < prices.size(); i++) {
+      if (buy > prices[i])
+        buy = prices[i]; //minimum buying prices
+      tprof = prices[i] - buy; //Todays profit
+      if (maxprof < tprof)
+        maxprof = tprof;
+    }
+    return maxprof;
+  }
+  int maxProfit(vector < int > & prices) {
+    //   return bruteForce(prices);
+    // return pref_suff_method(prices);
+    return optimalMethod(prices);
+  }
+};
